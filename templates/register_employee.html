@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Employee Registration Form</title>
+  </head>
+  <body>
+    <h1>Employee Registration Form</h1>
+    <form action="/register_employee" method="POST">
+        <ul>
+        
+
+    <li>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+    </li>
+    <li>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+    </li>
+    <li>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+    </li>
+    <li>
+      <label for="userlevel">User Level:</label>
+      <select id="userlevel" name="userlevel" required>
+        <option value="">Select User Level</option>
+        <option value="1">Level 1</option>
+        <option value="2">Level 2</option>
+        <option value="3">Level 3</option>
+      </select>
+    </li>
+    
+      <input type="submit" value="Register">
+    
+</ul>
+<style>
+    li {
+      margin-bottom: 10px;
+    }
+  </style>
+    </form>
+  </body>
+</html>
