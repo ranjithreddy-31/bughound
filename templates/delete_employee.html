@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Employee Deletion Form</title>
+  </head>
+  <body>
+    <h1>Employee Deletion Form</h1>
+    <form action="/delete_employee" method="POST">
+        <ul>
+        
+    <li>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+    </li>
+    <li>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+    </li>
+    <li>
+      <label for="employee_id">Employee ID:</label>
+      <input type="number" id="employee_id" name="employee_id" required>
+    </li>
+    
+      <input type="submit" value="Delete">
+    
+</ul>
+<style>
+    li {
+      margin-bottom: 10px;
+    }
+  </style>
+    </form>
+  </body>
+</html>
