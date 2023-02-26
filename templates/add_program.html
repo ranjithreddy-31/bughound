@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Program Registration Form</title>
+  </head>
+  <body>
+    <h1>Program Registration Form</h1>
+    <form action="/add_program" method="POST">
+        <ul>
+        
+
+    <li>
+      <label for="name">Name:</label>
+      <input type="text" id="program" name="program" required>
+    </li>
+    <li>
+      <label for="release">Release:</label>
+      <input type="text" id="release" name="release" required>
+    </li>
+    <li>
+      <label for="version">Version:</label>
+      <input type="text" id="version" name="version" required>
+    </li>
+      <input type="submit" value="Add">
+    
+</ul>
+<style>
+    li {
+      margin-bottom: 10px;
+    }
+  </style>
+    </form>
+  </body>
+</html>

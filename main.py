@@ -67,7 +67,7 @@ def delete_employee():
             conn.close()
             return "Invalid credentials"
     except Exception as e:
-	    return f"failed:No employee id in the database (tehnical reason:{e})"
+	    return f"failed:No employee id in the database (technical reason:{e})"
 @app.route('/update_employee_form')
 def update_employee_form():
 	return render_template('update_employee.html')
@@ -112,9 +112,106 @@ def update_employee():
 			return "Failed updating: Invalid Password"
 
 	except Exception as e:
-		return f"failed:No employee id in the database (tehnical reason:{e})"
+		return f"failed:No employee id in the database (technical reason:{e})"
 
-		
-	
+@app.route('/program')
+def program():
+ 	return render_template('program.html')
+
+@app.route('/add_program_form')
+def add_program_form():
+	return render_template('add_program.html')
+
+@app.route('/add_program', methods=['POST'])
+def add_program():
+	program = request.form['program']
+	version = request.form['version']
+	release = request.form['release']
+	try:
+		conn = get_connection()
+		cursor = conn.cursor()
+		query = "INSERT INTO programs (program, program_release, program_version) VALUES (%s, %s, %s)"
+		values = (program,version,release)
+		cursor.execute(query,values)
+		conn.commit()
+		cursor.close()
+		conn.close()
+		return "success"
+	except Exception as e:
+		return f"failed:{e}"
+@app.route('/update_program_form')
+def update_program_form():
+	return render_template('update_program.html')
+
+@app.route('/update_program', methods=['POST'])
+def update_program():
+	username = request.form['username']
+	password = request.form['password']
+	program_id = int(request.form['program_id'])
+	new_name = request.form['new_name']
+	new_release = request.form['new_release']
+	new_version = request.form['new_version']
+	try:
+		conn = get_connection()
+		cursor = conn.cursor()
+		query = f"select password from employees where username='{username}'"
+		cursor.execute(query)
+		db_password = cursor.fetchall()[0][0]
+		if password == db_password:
+			if new_name:
+				query = f"update programs set program='{new_name}' where prog_id = {program_id}"
+				cursor.execute(query)
+				conn.commit()
+			if new_release:
+				query = f"update programs set program_release='{new_release}' where prog_id = {program_id}"
+				cursor.execute(query)
+				conn.commit()
+			if new_version:
+				query = f"update programs set program_version='{new_version}' where prog_id = {program_id}"
+				cursor.execute(query)
+				conn.commit()
+			cursor.close()
+			conn.close()
+			return f"successfully updated employee:{program_id}"
+		else:
+			cursor.close()
+			conn.close()
+			return "Failed updating: Invalid Password"
+
+	except Exception as e:
+		return f"failed:No employee id in the database (technical reason:{e})"
+
+@app.route('/delete_program_form')
+def delete_program_form():
+	return render_template('delete_program.html')
+
+@app.route('/delete_program', methods=['POST'])
+def delete_program():
+    # Fetch form data
+    username = request.form['username']
+    password = request.form['password']
+    program_id = int(request.form['program_id'])
+    # Connect to database
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        # Execute query
+        query = f"select password from employees where username='{username}'"
+        cursor.execute(query)
+        db_password = cursor.fetchall()[0][0]
+        if password == db_password:
+            query = f"delete from programs where prog_id={program_id}"
+            cursor.execute(query)
+            conn.commit()
+            cursor.close()
+            conn.close()
+            return f"Successfully deleted program:{program_id}"
+        else:
+            cursor.close()
+            conn.close()
+            return "Invalid credentials"
+    except Exception as e:
+	    return f"failed:No program id in the database (technical reason:{e})"
 if __name__ == '__main__':
 	app.run(debug=True)
