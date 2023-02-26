@@ -172,14 +172,14 @@ def update_program():
 				conn.commit()
 			cursor.close()
 			conn.close()
-			return f"successfully updated employee:{program_id}"
+			return f"successfully updated Program:{program_id}"
 		else:
 			cursor.close()
 			conn.close()
 			return "Failed updating: Invalid Password"
 
 	except Exception as e:
-		return f"failed:No employee id in the database (technical reason:{e})"
+		return f"failed:No program id in the database (technical reason:{e})"
 
 @app.route('/delete_program_form')
 def delete_program_form():
@@ -201,6 +201,8 @@ def delete_program():
         cursor.execute(query)
         db_password = cursor.fetchall()[0][0]
         if password == db_password:
+            query = f"delete from areas where prog_id={program_id}"
+            cursor.execute(query)
             query = f"delete from programs where prog_id={program_id}"
             cursor.execute(query)
             conn.commit()
@@ -213,5 +215,113 @@ def delete_program():
             return "Invalid credentials"
     except Exception as e:
 	    return f"failed:No program id in the database (technical reason:{e})"
+@app.route('/area')
+def area():
+ 	return render_template('area.html')
+
+@app.route('/add_area_form')
+def add_area_form():
+	return render_template('add_area.html')
+
+@app.route('/add_area', methods = ["POST"])
+def add_area():
+	area = request.form['area']
+	prog_id = int(request.form['prog_id'])
+	try:
+		conn = get_connection()
+		cursor = conn.cursor()
+		query = f"select prog_id from programs where prog_id='{prog_id}'"
+		cursor.execute(query)
+		if not cursor.fetchall():
+			return 'Program ID entered does not exist in Database!'
+		else:
+			query = "INSERT INTO areas (area, prog_id) VALUES (%s, %s)"
+			values = (area,prog_id)
+			cursor.execute(query, values)
+			conn.commit()
+			cursor.close()
+			conn.close()
+			return "success"
+	except Exception as e:
+		return f"failed:{e}"
+
+@app.route('/update_area_form')
+def update_area_form():
+	return render_template('update_area.html')
+
+@app.route('/update_area', methods=['POST'])
+def update_area():
+	username = request.form['username']
+	password = request.form['password']
+	area_id = int(request.form['area_id'])
+	new_name = request.form['new_name']
+	new_prog_id = request.form['new_prog_id']
+	try:
+		conn = get_connection()
+		cursor = conn.cursor()
+		query = f"select password from employees where username='{username}'"
+		cursor.execute(query)
+		db_password = cursor.fetchall()[0][0]
+		if password == db_password:
+			if new_prog_id:
+				query = f"select prog_id from programs where prog_id='{new_prog_id}'"
+				cursor.execute(query)
+				if not cursor.fetchall():
+					return 'New Program ID entered does not exist in Database!'
+				else:
+					query = f"update areas set prog_id='{new_prog_id}' where area_id = {area_id}"
+					cursor.execute(query)
+					conn.commit()
+
+			if new_name:
+				query = f"update areas set area='{new_name}' where area_id = {area_id}"
+				cursor.execute(query)
+				conn.commit()
+			cursor.close()
+			conn.close()
+			return f"successfully updated Area:{area_id}"
+		else:
+			cursor.close()
+			conn.close()
+			return "Failed updating: Invalid Password"
+
+	except Exception as e:
+		return f"failed:No Program id in the database (technical reason:{e})"
+
+
+
+@app.route('/delete_area_form')
+def delete_area_form():
+	return render_template('delete_area.html')
+
+@app.route('/delete_area', methods=['POST'])
+def delete_area():
+	# Fetch form data
+    username = request.form['username']
+    password = request.form['password']
+    area_id = int(request.form['area_id'])
+    # Connect to database
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        # Execute query
+        query = f"select password from employees where username='{username}'"
+        cursor.execute(query)
+        db_password = cursor.fetchall()[0][0]
+        if password == db_password:
+            query = f"delete from areas where area_id={area_id}"
+            cursor.execute(query)
+            conn.commit()
+            cursor.close()
+            conn.close()
+            return f"Successfully deleted Area:{area_id}"
+        else:
+            cursor.close()
+            conn.close()
+            return "Invalid credentials"
+    except Exception as e:
+	    return f"failed:No Area id in the database (technical reason:{e})"
+
 if __name__ == '__main__':
 	app.run(debug=True)

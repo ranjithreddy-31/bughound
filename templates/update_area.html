@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Area Updation Form</title>
+  </head>
+  <body>
+    <h1>Area Updation Form</h1>
+    <form action="/update_area" method="POST">
+        <ul>
+        
+    <li>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+    </li>
+    <li>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+    </li>
+    <li>
+      <label for="area_id">Area ID:</label>
+      <input type="number" id="area_id" name="area_id" required>
+    </li>
+    <li>
+        <label for="new_name">Area:</label>
+        <input type="text" id="new_name" name="new_name" placeholder="Enter name if it needs to be changed">
+      </li>
+    <li>
+        <label for="new_prog_id">New Program ID:</label>
+        <input type="text" id="new_prog_id" name="new_prog_id" placeholder="Enter Program ID if it needs to be changed">
+    </li>
+
+      <input type="submit" value="Update">
+    
+</ul>
+<style>
+    li {
+      margin-bottom: 10px;
+    }
+  </style>
+    </form>
+  </body>
+</html>
