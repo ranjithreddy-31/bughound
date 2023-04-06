@@ -322,6 +322,62 @@ def delete_area():
             return "Invalid credentials"
     except Exception as e:
 	    return f"failed:No Area id in the database (technical reason:{e})"
+    
+@app.route('/show_employees',methods=['GET','POST'])
+def show_employees():
+	try:
+		conn = get_connection()
+		cursor = conn.cursor()
 
+		query = "select emp_id,name,username,userlevel from employees;"
+		cursor.execute(query)
+		data = []
+		for (id, name, username,level) in cursor:
+			data.append({'emp_id': id, 'name': name, 'username': username, 'level':level})
+		cursor.close()
+		conn.close()
+
+		return render_template('employee_details.html', data=data)
+
+	except Exception as e:
+	    return f"failed:No employee details found in the database (technical reason:{e})"
+	
+@app.route('/show_programs',methods=['GET','POST'])
+def show_programs():
+	try:
+		conn = get_connection()
+		cursor = conn.cursor()
+
+		query = "select * from programs;"
+		cursor.execute(query)
+		data = []
+		for (id, name, release,version) in cursor:
+			data.append({'program_id': id, 'program': name, 'program_release': release, 'program_version':version})
+		cursor.close()
+		conn.close()
+
+		return render_template('program_details.html', data=data)
+
+	except Exception as e:
+	    return f"failed:No program details found in the database (technical reason:{e})"
+
+@app.route('/show_areas',methods=['GET','POST'])
+def show_areas():
+	try:
+		conn = get_connection()
+		cursor = conn.cursor()
+
+		query = "select a.area_id,a.prog_id,a.area,p.program from areas a natural join programs p;"
+		cursor.execute(query)
+		data = []
+		for (a_id, p_id, area,program) in cursor:
+			data.append({'a_id': a_id, 'p_id': p_id, 'area': area, 'program':program})
+		cursor.close()
+		conn.close()
+
+		return render_template('area_details.html', data=data)
+
+	except Exception as e:
+	    return f"failed:No area details found in the database (technical reason:{e})"
 if __name__ == '__main__':
 	app.run(debug=True)
