@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Area Details</title>
+	<style>
+		table {
+            background-color: aqua;
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th, td {
+			text-align: left;
+			padding: 8px;
+			border-bottom: 1px solid #ddd;
+		}
+
+		th {
+			background-color: #f2f2f2;
+			color: #333;
+		}
+	</style>
+</head>
+<body>
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Program ID</th>
+				<th>Report Type</th>
+                <th>Severity</th>
+                <th>Problem Summary</th>
+				<th>Reproducible</th>
+				<th>Suggested Fix</th>
+                <th>Reported By</th>
+                <th>Reported Date</th>
+				<th>Functional Area</th>
+				<th>Assigned To</th>
+                <th>Comments</th>
+                <th>Status</th>
+				<th>Priority</th>
+				<th>Resolution</th>
+                <th>Resolution Version</th>
+                <th>Resolved By</th>
+				<th>Resolved Date</th>
+				<th>Tested By</th>
+                <th>Tested Date</th>
+                <th>Deferred</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for row in data %}
+			<tr>
+				<td>{{ row.id }}</td>
+				<td>{{ row.program_id }}</td>
+				<td>{{ row.report_type}}</td>
+                <td>{{ row.severity }}</td>
+                <td>{{ row.problemSummary }}</td>
+				<td>{{ row.reproducible }}</td>
+				<td>{{ row.suggested_fix}}</td>
+                <td>{{ row.reported_by }}</td>
+                <td>{{ row.reported_date }}</td>
+				<td>{{ row.functional_area }}</td>
+				<td>{{ row.assigned_to}}</td>
+                <td>{{ row.comments }}</td>
+                <td>{{ row.priority }}</td>
+				<td>{{ row.resolution }}</td>
+				<td>{{ row.resolution_version}}</td>
+                <td>{{ row.resolved_by }}</td>
+                <td>{{ row.resolved_date }}</td>
+				<td>{{ row.tested_by }}</td>
+				<td>{{ row.tested_date}}</td>
+                <td>{{ row.deferred }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</body>
+</html>

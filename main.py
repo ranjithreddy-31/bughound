@@ -16,58 +16,64 @@ def register_employee_form():
 	return render_template('register_employee.html')
 @app.route('/register_employee', methods=['POST'])
 def register_employee():
-    # Fetch form data
-    #id = request.form['id']
-    name = request.form['name']
-    username = request.form['username']
-    password = request.form['password']
-    userlevel = request.form['userlevel']
-    # Connect to database
-    try:
-        conn = get_connection()
-        cursor = conn.cursor()
+	# Fetch form data
+	#id = request.form['id']
+	name = request.form['name']
+	username = request.form['username']
+	password = request.form['password']
+	userlevel = request.form['userlevel']
+	# Connect to database
+	try:
+		conn = get_connection()
+		cursor = conn.cursor()
 
-        # Execute query
-        query = "INSERT INTO employees (name, username, password, userlevel) VALUES (%s, %s, %s, %s)"
-        values = (name, username, password, userlevel)
-        cursor.execute(query, values)
-        conn.commit()
-        cursor.close()
-        conn.close()
-        return "success"
-    except Exception as e:
-	    return f"failed:{e}"
+		# Execute query
+		query = "INSERT INTO employees (name, username, password, userlevel) VALUES (%s, %s, %s, %s)"
+		values = (name, username, password, userlevel)
+		cursor.execute(query, values)
+		conn.commit()
+		cursor.close()
+		conn.close()
+		return "success"
+	except Exception as e:
+		return f"failed:{e}"
 @app.route('/delete_employee_form')
 def delete_employee_form():
 	return render_template('delete_employee.html')
 @app.route('/delete_employee', methods=['POST'])
 def delete_employee():
-    # Fetch form data
-    username = request.form['username']
-    password = request.form['password']
-    employee_id = int(request.form['employee_id'])
-    # Connect to database
-    try:
-        conn = get_connection()
-        cursor = conn.cursor()
+	# Fetch form data
+	username = request.form['username']
+	password = request.form['password']
+	employee_id = int(request.form['employee_id'])
+	# Connect to database
+	try:
+		conn = get_connection()
+		cursor = conn.cursor()
 
-        # Execute query
-        query = f"select password from employees where username='{username}'"
-        cursor.execute(query)
-        db_password = cursor.fetchall()[0][0]
-        if password == db_password:
-            query = f"delete from employees where emp_id={employee_id}"
-            cursor.execute(query)
-            conn.commit()
-            cursor.close()
-            conn.close()
-            return f"Successfully deleted employee:{employee_id}"
-        else:
-            cursor.close()
-            conn.close()
-            return "Invalid credentials"
-    except Exception as e:
-	    return f"failed:No employee id in the database (technical reason:{e})"
+		# Execute query
+		query = f"select password from employees where username='{username}'"
+		cursor.execute(query)
+		db_password = cursor.fetchall()[0][0]
+		if password == db_password:
+			query = f"delete from bug where reoported_by={employee_id};"
+			cursor.execute(query)
+			query = f"delete from bug where assigned_to={employee_id};"
+			cursor.execute(query)
+			query = f"delete from bug where resolved_by={employee_id};"
+			cursor.execute(query)
+			query = f"delete from employees where tested_by={employee_id};"
+			cursor.execute(query)
+			conn.commit()
+			cursor.close()
+			conn.close()
+			return f"Successfully deleted employee:{employee_id};"
+		else:
+			cursor.close()
+			conn.close()
+			return "Invalid credentials"
+	except Exception as e:
+		return f"failed:No employee id in the database (technical reason:{e})"
 @app.route('/update_employee_form')
 def update_employee_form():
 	return render_template('update_employee.html')
@@ -187,34 +193,36 @@ def delete_program_form():
 
 @app.route('/delete_program', methods=['POST'])
 def delete_program():
-    # Fetch form data
-    username = request.form['username']
-    password = request.form['password']
-    program_id = int(request.form['program_id'])
-    # Connect to database
-    try:
-        conn = get_connection()
-        cursor = conn.cursor()
+	# Fetch form data
+	username = request.form['username']
+	password = request.form['password']
+	program_id = int(request.form['program_id'])
+	# Connect to database
+	try:
+		conn = get_connection()
+		cursor = conn.cursor()
 
-        # Execute query
-        query = f"select password from employees where username='{username}'"
-        cursor.execute(query)
-        db_password = cursor.fetchall()[0][0]
-        if password == db_password:
-            query = f"delete from areas where prog_id={program_id}"
-            cursor.execute(query)
-            query = f"delete from programs where prog_id={program_id}"
-            cursor.execute(query)
-            conn.commit()
-            cursor.close()
-            conn.close()
-            return f"Successfully deleted program:{program_id}"
-        else:
-            cursor.close()
-            conn.close()
-            return "Invalid credentials"
-    except Exception as e:
-	    return f"failed:No program id in the database (technical reason:{e})"
+		# Execute query
+		query = f"select password from employees where username='{username}'"
+		cursor.execute(query)
+		db_password = cursor.fetchall()[0][0]
+		if password == db_password:
+			query = f"delete from areas where prog_id={program_id}"
+			cursor.execute(query)
+			query = f"delete from bug where program_id = {program_id};"
+			cursor.execute(query)
+			query = f"delete from programs where prog_id={program_id}"
+			cursor.execute(query)
+			conn.commit()
+			cursor.close()
+			conn.close()
+			return f"Successfully deleted program:{program_id}"
+		else:
+			cursor.close()
+			conn.close()
+			return "Invalid credentials"
+	except Exception as e:
+		return f"failed:No program id in the database (technical reason:{e})"
 @app.route('/area')
 def area():
  	return render_template('area.html')
@@ -297,32 +305,32 @@ def delete_area_form():
 @app.route('/delete_area', methods=['POST'])
 def delete_area():
 	# Fetch form data
-    username = request.form['username']
-    password = request.form['password']
-    area_id = int(request.form['area_id'])
-    # Connect to database
-    try:
-        conn = get_connection()
-        cursor = conn.cursor()
+	username = request.form['username']
+	password = request.form['password']
+	area_id = int(request.form['area_id'])
+	# Connect to database
+	try:
+		conn = get_connection()
+		cursor = conn.cursor()
 
-        # Execute query
-        query = f"select password from employees where username='{username}'"
-        cursor.execute(query)
-        db_password = cursor.fetchall()[0][0]
-        if password == db_password:
-            query = f"delete from areas where area_id={area_id}"
-            cursor.execute(query)
-            conn.commit()
-            cursor.close()
-            conn.close()
-            return f"Successfully deleted Area:{area_id}"
-        else:
-            cursor.close()
-            conn.close()
-            return "Invalid credentials"
-    except Exception as e:
-	    return f"failed:No Area id in the database (technical reason:{e})"
-    
+		# Execute query
+		query = f"select password from employees where username='{username}'"
+		cursor.execute(query)
+		db_password = cursor.fetchall()[0][0]
+		if password == db_password:
+			query = f"delete from areas where area_id={area_id}"
+			cursor.execute(query)
+			conn.commit()
+			cursor.close()
+			conn.close()
+			return f"Successfully deleted Area:{area_id}"
+		else:
+			cursor.close()
+			conn.close()
+			return "Invalid credentials"
+	except Exception as e:
+		return f"failed:No Area id in the database (technical reason:{e})"
+	
 @app.route('/show_employees',methods=['GET','POST'])
 def show_employees():
 	try:
@@ -340,7 +348,7 @@ def show_employees():
 		return render_template('employee_details.html', data=data)
 
 	except Exception as e:
-	    return f"failed:No employee details found in the database (technical reason:{e})"
+		return f"failed:No employee details found in the database (technical reason:{e})"
 	
 @app.route('/show_programs',methods=['GET','POST'])
 def show_programs():
@@ -359,7 +367,7 @@ def show_programs():
 		return render_template('program_details.html', data=data)
 
 	except Exception as e:
-	    return f"failed:No program details found in the database (technical reason:{e})"
+		return f"failed:No program details found in the database (technical reason:{e})"
 
 @app.route('/show_areas',methods=['GET','POST'])
 def show_areas():
@@ -378,6 +386,98 @@ def show_areas():
 		return render_template('area_details.html', data=data)
 
 	except Exception as e:
-	    return f"failed:No area details found in the database (technical reason:{e})"
+		return f"failed:No area details found in the database (technical reason:{e})"
+@app.route('/bug')
+def bug():
+ 	return render_template('bug.html')
+
+@app.route('/add_bug_form')
+def add_bug_form():
+	return render_template('add_bug.html')
+
+@app.route('/add_bug', methods=['POST'])
+def add_bug():
+
+	program_id = request.form['program_id']
+	report_type = request.form['report_type']
+	severity = request.form['severity']
+	problemSummary = request.form['problemSummary']
+	reproducible = request.form['reproducible']
+	suggested_fix = request.form['suggested_fix']
+	reported_by = request.form['reported_by']
+	reported_date = request.form['reported_date']
+	functional_area = request.form['functional_area']
+	assigned_to = request.form['assigned_to']
+	comments = request.form['comments']
+	status = request.form['status']
+	priority = request.form['priority']
+
+	try:
+		conn = get_connection()
+		cursor = conn.cursor()
+		query = "INSERT INTO bug (program_id, report_type, severity, problemSummary, reproducible, suggested_fix, reported_by, reported_date, functional_area, assigned_to, comments, status, priority) VALUES (%s, %s, %s,%s, %s, %s,%s, %s, %s,%s, %s, %s,%s);"
+		values = (program_id, report_type, severity, problemSummary, reproducible, suggested_fix, reported_by, reported_date, functional_area, assigned_to, comments, status, priority)
+		cursor.execute(query,values)
+		conn.commit()
+		cursor.close()
+		conn.close()
+		return "success"
+	except Exception as e:
+		return f"failed:{e}"
+
+@app.route('/close_bug_form')
+def close_bug_form():
+	return render_template('close_bug.html')
+
+@app.route('/close_bug', methods=['POST'])
+def close_bug():
+	id  = int(request.form['id'])
+	status = request.form['status']
+	resolution = request.form['resolution']
+	resolution_version = request.form['resolution_version']
+	resolved_by = request.form['resolved_by']
+	resolved_date = str(request.form['resolved_date'])
+	tested_by = request.form['tested_by']
+	tested_date = request.form['tested_date']
+	defered = request.form['defered']
+	try:
+		conn = get_connection()
+		cursor = conn.cursor()
+		query = f"update bug set status = '{status}', resolution = '{resolution}', resolution_version = '{resolution_version}', resolved_by = {resolved_by},resolved_date = '{resolved_date}', tested_by={tested_by}, tested_date = '{tested_date}',deferred = '{defered}' where id = {id}"
+		print(query)
+		cursor.execute(query)
+		conn.commit()
+		cursor.close()
+		conn.close()
+		return "success"
+	except Exception as e:
+		return f"failed:{e}"
+	
+@app.route('/search_bug_form',methods=['POST','GET'])
+def search_bug_form():
+	return render_template('search_bug.html')
+
+@app.route('/search_bug', methods=['POST','GET'])
+def search_bug():
+	id  = request.form['id']
+	quantity = request.form['quantity']
+	priority = request.form['priority']
+	status = request.form['status']
+	try:
+		conn = get_connection()
+		cursor = conn.cursor()
+		query = f"select * from bug where {id} = {quantity} and priority = '{priority}' and status = '{status}';"
+		print(query)
+		cursor.execute(query)
+		data = []
+		for (id, program_id, report_type,severity,problemSummary,reproducible,suggested_fix,reported_by,reported_date,functional_area,assigned_to, comments,status, priority,resolution,resolution_version,resolved_by,resolved_date,tested_by,tested_date,deferred) in cursor:
+			data.append({'id': id, 'program_id': program_id, 'report_type': report_type, 'severity':severity, 'problemSummary':problemSummary,'reproducible':reproducible,'suggested_fix':suggested_fix,'reported_by':reported_by,'reported_date':reported_date,'functional_area':functional_area,'assigned_to':assigned_to,'comments':comments,'status':status,'priority':priority,'resolution':resolution,'resolution_version':resolution_version,'resolved_by':resolved_by,'resolved_date':resolved_by,'tested_by':tested_by,'tested_date':tested_date,'deferred':deferred})
+		cursor.close()
+		conn.close()
+
+		return render_template('bug_details.html', data=data)
+	except Exception as e:
+		return f"failed:{e}"
+
 if __name__ == '__main__':
 	app.run(debug=True)

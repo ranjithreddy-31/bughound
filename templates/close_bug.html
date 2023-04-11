@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bug Resolution Form</title>
+    <style>
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      li {
+        display:block;
+        padding: 10px;
+        align-content: center ;
+        margin-bottom: 5px;
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+      }
+
+      a {
+        color: #000;
+        text-decoration: double;
+      }
+
+      a:hover {
+        color: blue;
+        text-decoration: underline;
+      }
+
+      body {
+        background-color: aqua;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+
+    </style>
+  </head>
+  <body>
+    <h1>Bug Registration Form</h1>
+    <form action="/close_bug" method="POST">
+        <ul>
+          <li>
+            <label for="id">Bug ID:</label>
+            <input type="number" id="id" name="id" required>
+          <li>
+            <label for="status">Status:</label>
+            <select id="status" name="status" required>
+              <option value="open">Open</option>
+              <option value="closed">Closed</option>
+            </select>
+          </li>
+          <li>
+            <label for="resolution">Resolution:</label>
+            <input type="text" id="resolution" name="resolution">
+          </li>
+          <li>
+            <label for="resolution_version">Resolution Version:</label>
+            <input type="text" id="resolution_version" name="resolution_version">
+          </li>
+          <li>
+                <label for="resolved_by">Resolved By:</label>
+                <input type="text" id="resolved_by" name="resolved_by">
+              </li>
+              <li>
+                <label for="resolved_date">Resolved Date:</label>
+                <input type="date" id="resolved_date" name="resolved_date">
+              </li>
+              <li>
+                <label for="tested_by">Tested By:</label>
+                <input type="number" id="tested_by" name="tested_by">
+              </li>
+              <li>
+                <label for="tested_date">Tested Date:</label>
+                <input type="date" id="tested_date" name="tested_date">
+              </li>
+              <li>
+                <label for="defered">Defered:</label>
+                <select id="defered" name="defered">
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+                </select>
+
+              </li>
+            </li>
+            <input type="submit" value="Add">
+          </ul>
+            </ul>
+          </form>
+          
+      
+  </body>
+</html>
