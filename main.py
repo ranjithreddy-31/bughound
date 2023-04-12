@@ -479,5 +479,103 @@ def search_bug():
 	except Exception as e:
 		return f"failed:{e}"
 
+@app.route('/update_bug_form',methods=['POST','GET'])
+def update_bug_form():
+	return render_template('update_bug.html')
+
+@app.route('/update_bug', methods=['POST','GET'])
+def update_bug():
+	id  = int(request.form['id'])
+	program_id = request.form['program_id']
+	report_type = request.form['report_type']
+	severity = request.form['severity']
+	problemSummary = request.form['problemSummary']
+	reproducible = request.form['reproducible']
+	suggested_fix = request.form['suggested_fix']
+	reported_by = request.form['reported_by']
+	reported_date = request.form['reported_date']
+	functional_area = request.form['functional_area']
+	assigned_to = request.form['assigned_to']
+	comments = request.form['comments']
+	status = request.form['status']
+	priority = request.form['priority']
+	resolution = request.form['resolution']
+	resolution_version = request.form['resolution_version']
+	resolved_by = request.form['resolved_by']
+	resolved_date = str(request.form['resolved_date'])
+	tested_by = request.form['tested_by']
+	tested_date = request.form['tested_date']
+	defered = request.form['defered']
+	try:
+		conn = get_connection()
+		cursor = conn.cursor()
+		if program_id:
+			query = f"update bug set program_id={program_id} where id = {id}"
+			cursor.execute(query)
+		if report_type:
+			query = f"update bug set report_type='{report_type}' where id = {id}"
+			cursor.execute(query)
+		if severity:
+			query = f"update bug set severity='{severity}' where id = {id}"
+			cursor.execute(query)
+		if problemSummary:
+			query = f"update bug set problemSummary='{problemSummary}' where id = {id}"
+			cursor.execute(query)
+		if reproducible:
+			query = f"update bug set reproducible='{reproducible}' where id = {id}"
+			cursor.execute(query)
+		if suggested_fix:
+			query = f"update bug set suggested_fix='{suggested_fix}' where id = {id}"
+			cursor.execute(query)
+		if reported_by:
+			query = f"update bug set reported_by={reported_by} where id = {id}"
+			cursor.execute(query)
+		if reported_date:
+			query = f"update bug set reported_date='{reported_date}' where id = {id}"
+			cursor.execute(query)
+		if functional_area:
+			query = f"update bug set functional_area='{functional_area}' where id = {id}"
+			cursor.execute(query)
+		if assigned_to:
+			query = f"update bug set assigned_to={assigned_to} where id = {id}"
+			cursor.execute(query)
+		if comments:
+			query = f"update bug set comments='{comments}' where id = {id}"
+			cursor.execute(query)
+		if status:
+			query = f"update bug set status='{status}' where id = {id}"
+			cursor.execute(query)
+		if priority:
+			query = f"update bug set priority='{priority}' where id = {id}"
+			cursor.execute(query)
+		if resolution:
+			query = f"update bug set resolution='{resolution}' where id = {id}"
+			cursor.execute(query)
+		if resolution_version:
+			query = f"update bug set resolution_version='{resolution_version}' where id = {id}"
+			cursor.execute(query)
+		if resolved_by:
+			query = f"update bug set resolved_by={resolved_by} where id = {id}"
+			cursor.execute(query)
+		if resolved_date:
+			query = f"update bug set resolved_date='{resolved_date}' where id = {id}"
+			cursor.execute(query)
+		if tested_by:
+			query = f"update bug set tested_by={tested_by} where id = {id}"
+			cursor.execute(query)
+		if tested_date:
+			query = f"update bug set tested_date='{tested_date}' where id = {id}"
+			cursor.execute(query)
+		if defered:
+			query = f"update bug set deferred='{defered}' where id = {id}"
+
+		
+		conn.commit()
+		cursor.close()
+		conn.close()
+		return "Success"
+	except Exception as e:
+		return f"Updation of Bug failed due to {e}"
+
 if __name__ == '__main__':
 	app.run(debug=True)

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bug Reporting Form</title>
+    <style>
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      li {
+        display:block;
+        padding: 5px;
+        align-content: center ;
+        margin-bottom: 5px;
+        
+        
+      }
+
+      a {
+        color: #000;
+        text-decoration: double;
+      }
+
+      a:hover {
+        color: blue;
+        text-decoration: underline;
+      }
+
+      body {
+        background-color: aqua;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+
+    </style>
+  </head>
+  <body>
+    <h1>Bug Updatation Form</h1>
+    <form action="/update_bug" method="POST">
+        <ul>
+            <li>
+                <label for="id">ID:</label>
+                <input type="number" id="id" name="id" required>
+              </li>
+          <li>
+            <h6>Enter the values for the corresponding fields which need to be modified</h6>
+            <label for="program_id">Program ID:</label>
+            <input type="number" id="program_id" name="program_id">
+          </li>
+          <li>
+            <label for="report_type">Report Type:</label>
+            <input type="text" id="report_type" name="report_type" >
+          </li>
+          <li>
+            <label for="severity">Severity:</label>
+            <select id="severity" name="severity" >
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </li>
+          <li>
+            <label for="problemSummary">Problem Summary:</label>
+            <textarea id="problemSummary" name="problemSummary" ></textarea>
+          </li>
+          <li>
+            <label for="reproducible">Reproducible:</label>
+            <select id="reproducible" name="reproducible" >
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </li>
+          <li>
+            <label for="suggested_fix">Suggested Fix:</label>
+            <input type="text" id="suggested_fix" name="suggested_fix">
+          </li>
+          <li>
+            <label for="reported_by">Reported By:</label>
+            <input type="number" id="reported_by" name="reported_by">
+          </li>
+          <li>
+            <label for="reported_date">Reported Date:</label>
+            <input type="date" id="reported_date" name="reported_date">
+          </li>
+          <li>
+            <label for="functional_area">Functional Area:</label>
+            <input type="text" id="functional_area" name="functional_area">
+          </li>
+          <li>
+            <label for="assigned_to">Assigned To:</label>
+            <input type="number" id="assigned_to" name="assigned_to">
+          </li>
+          <li>
+            <label for="comments">Comments:</label>
+            <textarea id="comments" name="comments"></textarea>
+          </li>
+          <li>
+            <label for="status">Status:</label>
+            <select id="status" name="status">
+              <option value="open">Open</option>
+              <option value="closed">Closed</option>
+            </select>
+          </li>
+          <li>
+            <label for="priority">Priority:</label>
+            <select id="priority" name="priority">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </li>
+          <li>
+            <label for="resolution">Resolution:</label>
+            <input type="text" id="resolution" name="resolution">
+          </li>
+          <li>
+            <label for="resolution_version">Resolution Version:</label>
+            <input type="text" id="resolution_version" name="resolution_version">
+          </li>
+          <li>
+                <label for="resolved_by">Resolved By:</label>
+                <input type="text" id="resolved_by" name="resolved_by">
+              </li>
+              <li>
+                <label for="resolved_date">Resolved Date:</label>
+                <input type="date" id="resolved_date" name="resolved_date">
+              </li>
+              <li>
+                <label for="tested_by">Tested By:</label>
+                <input type="number" id="tested_by" name="tested_by">
+              </li>
+              <li>
+                <label for="tested_date">Tested Date:</label>
+                <input type="date" id="tested_date" name="tested_date">
+              </li>
+              <li>
+                <label for="defered">Defered:</label>
+                <select id="defered" name="defered">
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+                </select>
+
+              </li>
+            <input type="submit" value="Add">
+            </ul>
+          </form>
+          
+      
+  </body>
+</html>
