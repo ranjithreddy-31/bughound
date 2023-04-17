@@ -38,18 +38,16 @@
 }
 
 
-
     </style>
-    
   </head>
   <body>
-    <h1>Welcome to BugHound!</h1>
+    <h1 >Select an Option</h1>
 
     <ul>
-      <li><a href="{{ url_for('employee')}}">Employee</a></li>
-      <li><a href="{{ url_for('program')}}">Program</a></li>
-      <li><a href="{{ url_for('area')}}">Area</a></li>
-      <li><a href="{{ url_for('bug')}}">Bug</a></li>
+        <li><a href="{{ url_for('show_employees') }}">Show Employees</a></li>
+      <li><a href="{{ url_for('show_programs') }}">Show Programs</a></li>
+      <li><a href="{{ url_for('show_bugs') }}">Show Bugs</a></li>
+      <li><a href="{{ url_for('show_areas') }}">Show Areas</a></li>
       <li><a href="{{ url_for('logout') }}">Log Out</a></li>
     </ul>
   </body>

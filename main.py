@@ -6,11 +6,21 @@ def get_connection():
 	return mysql.connector.connect(user='root', password='', host='localhost', database='bughound')
 
 @app.route('/')
-def index():
-	return render_template('index.html')
+def menu():
+	return render_template('menu.html')
+
 @app.route('/employee')
 def employee():
  	return render_template('employee.html')
+
+@app.route('/admin')
+def admin():
+ 	return render_template('admin.html')
+
+@app.route('/user')
+def user():
+ 	return render_template('user.html')
+
 @app.route('/register_employee_form')
 def register_employee_form():
 	return render_template('register_employee.html')
@@ -576,6 +586,54 @@ def update_bug():
 		return "Success"
 	except Exception as e:
 		return f"Updation of Bug failed due to {e}"
+
+@app.route('/admin_login', methods=['POST','GET'])
+def admin_login():
+	username  = request.form['username']
+	password = request.form['password']
+	if username == 'admin' and password == '12345678':
+		return render_template('index.html')
+	return 'Invalid Credentials, Try again!!'
+
+@app.route('/user_login', methods=['POST','GET'])
+def user_login():
+	username = request.form['username']
+	password = request.form['password']
+	# Connect to database
+	try:
+		conn = get_connection()
+		cursor = conn.cursor()
+
+		# Execute query
+		query = f"select password from employees where username='{username}'"
+		cursor.execute(query)
+		db_password = cursor.fetchall()[0][0]
+		if password == db_password:
+			return render_template('show_details.html')
+		else:
+			return 'Invalid Credentials, Try again!!'
+	except Exception as e:
+		return f'Failed due to {e}'
+
+@app.route('/show_bugs',methods=['GET','POST'])
+def show_bugs():
+	try:
+		conn = get_connection()
+		cursor = conn.cursor()
+		query = f"select * from bug;"
+		cursor.execute(query)
+		data = []
+		for (id, program_id, report_type,severity,problemSummary,reproducible,suggested_fix,reported_by,reported_date,functional_area,assigned_to, comments,status, priority,resolution,resolution_version,resolved_by,resolved_date,tested_by,tested_date,deferred) in cursor:
+			data.append({'id': id, 'program_id': program_id, 'report_type': report_type, 'severity':severity, 'problemSummary':problemSummary,'reproducible':reproducible,'suggested_fix':suggested_fix,'reported_by':reported_by,'reported_date':reported_date,'functional_area':functional_area,'assigned_to':assigned_to,'comments':comments,'status':status,'priority':priority,'resolution':resolution,'resolution_version':resolution_version,'resolved_by':resolved_by,'resolved_date':resolved_by,'tested_by':tested_by,'tested_date':tested_date,'deferred':deferred})
+		cursor.close()
+		conn.close()
+		return render_template('bug_details.html', data=data)
+	except Exception as e:
+		return f"failed:{e}"
+	
+@app.route("/logout")
+def logout():
+	return render_template('menu.html')
 
 if __name__ == '__main__':
 	app.run(debug=True)
